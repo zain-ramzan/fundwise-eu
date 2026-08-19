@@ -19,8 +19,8 @@
 - [ ] Connect a verified structured official-source adapter to enrich opportunity records with full descriptions, eligibility evidence, and published budget fields.
 - [x] Remove public sign-in, How it works, and For organisations controls while preserving a direct Discover path.
 - [x] Replace public application creation with a calendar and task-saving experience for opportunity deadlines.
-- [ ] Replace the temporary Yorkie-blue filter approach with deliberate palette tokens and revalidate public contrast at desktop and mobile sizes.
+- [x] Replace the temporary Yorkie-blue filter approach with deliberate palette tokens and revalidate public contrast at desktop and mobile sizes.
 - [x] Apply a Yorkie-blue visual identity across the public platform.
-- [ ] Create and publish a new GitHub repository for the completed platform source code.
-- [ ] Add a safe daily GitHub Actions workflow that refreshes verified official funding records without inventing unsupported data.
-- [ ] Validate the revised public flows, build, tests, and repository automation configuration.
+- [x] Create and publish a new GitHub repository for the completed platform source code.
+- [x] Add a safe daily GitHub Actions workflow that refreshes verified official funding records without inventing unsupported data.
+- [x] Validate the revised public flows, build, tests, and repository automation configuration.
