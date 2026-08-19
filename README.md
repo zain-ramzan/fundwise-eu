@@ -16,3 +16,7 @@ pnpm dev
 ```
 
 Run the automated checks with `pnpm check`, `pnpm test`, and `pnpm build`.
+
+## GitHub Pages public catalogue
+
+The public GitHub Pages edition is a static discovery site under `docs/`. In the repository’s **Settings → Pages**, choose **Deploy from a branch**, select `main`, and choose the `/docs` folder. This edition includes the public catalogue, official source links, client-side search, and calendar-saving; it does not include server, database, OAuth, private application-workspace, or administration functions.
