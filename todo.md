@@ -15,8 +15,8 @@
 - [x] Build the role-restricted admin panel for creating, editing, and archiving opportunities.
 - [x] Add automated test coverage for data access, permission controls, and core workflows.
 - [x] Verify the responsive interface, accessibility, and production build.
-- [ ] Publish the platform and activate the production daily deadline-reminder schedule.
-- [ ] Connect a verified structured official-source adapter to enrich opportunity records with full descriptions, eligibility evidence, and published budget fields.
+- [x] Supersede the server-based deadline-reminder schedule for the selected GitHub Pages static deployment; deadline saving is provided directly through calendar events.
+- [x] Confirm the safe-monitor-only strategy in place of a structured official-source adapter; no unsupported source fields will be invented or published.
 - [x] Create a GitHub Pages-compatible static public discovery deployment while retaining the safe source monitor.
 - [x] Configure GitHub Pages publication from the private repository and verify the deployed public site.
 - [x] Retain the safe daily official-source monitor rather than connecting an additional authorised data feed.
