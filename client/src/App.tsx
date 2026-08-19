@@ -5,12 +5,26 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import FundingCatalogue from "./pages/FundingCatalogue";
+import OpportunityDetail from "./pages/OpportunityDetail";
+import EligibilityWizard from "./pages/EligibilityWizard";
+import UserDashboard from "./pages/UserDashboard";
+import Applications from "./pages/Applications";
+import ApplicationWorkspace from "./pages/ApplicationWorkspace";
+import Admin from "./pages/Admin";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/funding"} component={FundingCatalogue} />
+      <Route path={"/funding/:slug/assessment"} component={EligibilityWizard} />
+      <Route path={"/funding/:slug"} component={OpportunityDetail} />
+      <Route path={"/dashboard"} component={UserDashboard} />
+      <Route path={"/applications"} component={Applications} />
+      <Route path={"/applications/:id"} component={ApplicationWorkspace} />
+      <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

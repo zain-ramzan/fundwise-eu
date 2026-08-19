@@ -1,0 +1,19 @@
+# Project TODO
+
+- [x] Review the supplied technical implementation plan and reconcile it with the approved requirements.
+- [x] Define database entities for funding opportunities, saved opportunities, applications, document checklists, assessments, and notifications.
+- [x] Apply the database migration and implement secure data-access helpers.
+- [x] Implement Manus OAuth-only user authentication and role-restricted admin procedures.
+- [x] Build the polished public landing page with clear sign-in call-to-action.
+- [x] Build a searchable, filterable, paginated funding opportunity catalogue.
+- [x] Build a comprehensive funding opportunity detail experience.
+- [x] Build a multi-step eligibility self-assessment wizard with opportunity-specific scoring.
+- [x] Build the user dashboard for saved opportunities, active applications, and approaching deadlines.
+- [x] Build the application workspace with the required lifecycle statuses: Draft, In Progress, Submitted, Awarded, Rejected.
+- [x] Build per-application document checklists with upload-state tracking and notes.
+- [x] Implement deadline notifications and reminders for saved opportunities and applications.
+- [x] Build the role-restricted admin panel for creating, editing, and archiving opportunities.
+- [x] Add automated test coverage for data access, permission controls, and core workflows.
+- [x] Verify the responsive interface, accessibility, and production build.
+- [ ] Publish the platform and activate the production daily deadline-reminder schedule.
+- [ ] Connect a verified structured official-source adapter to enrich opportunity records with full descriptions, eligibility evidence, and published budget fields.

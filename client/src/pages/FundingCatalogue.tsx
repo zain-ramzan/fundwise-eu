@@ -1,0 +1,51 @@
+import { OpportunityCard } from "@/components/funding/OpportunityCard";
+import { PublicFooter, PublicNav } from "@/components/funding/PublicNav";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
+import { Filter, Loader2, Search, SlidersHorizontal, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "wouter";
+import { toast } from "sonner";
+
+const ANY = "__any";
+
+export default function FundingCatalogue() {
+  const { isAuthenticated } = useAuth();
+  const [location] = useLocation();
+  const initialQuery = new URLSearchParams(location.split("?")[1]).get("q") ?? "";
+  const [q, setQ] = useState(initialQuery);
+  const [search, setSearch] = useState(initialQuery);
+  const [programme, setProgramme] = useState(ANY);
+  const [sector, setSector] = useState(ANY);
+  const [country, setCountry] = useState(ANY);
+  const [deadlineBefore, setDeadlineBefore] = useState("");
+  const [budgetMin, setBudgetMin] = useState("");
+  const [budgetMax, setBudgetMax] = useState("");
+  const [page, setPage] = useState(1);
+  const filters = useMemo(() => ({
+    q: search || undefined,
+    programme: programme === ANY ? undefined : programme,
+    sector: sector === ANY ? undefined : sector,
+    country: country === ANY ? undefined : country,
+    deadlineBefore: deadlineBefore ? new Date(`${deadlineBefore}T23:59:59`) : undefined,
+    budgetMin: budgetMin ? Number(budgetMin) : undefined,
+    budgetMax: budgetMax ? Number(budgetMax) : undefined,
+    page,
+    pageSize: 9,
+  }), [search, programme, sector, country, deadlineBefore, budgetMin, budgetMax, page]);
+  const { data, isLoading, isFetching } = trpc.opportunities.list.useQuery(filters);
+  const { data: options } = trpc.opportunities.filterOptions.useQuery();
+  const utils = trpc.useUtils();
+  const save = trpc.saved.toggle.useMutation({ onSuccess: () => { utils.saved.list.invalidate(); utils.opportunities.invalidate(); }, onError: () => toast.error(isAuthenticated ? "Unable to update your saved opportunities." : "Sign in to save an opportunity.") });
+  const [savedIds, setSavedIds] = useState<number[]>([]);
+  const { data: saved } = trpc.saved.list.useQuery(undefined, { enabled: isAuthenticated });
+  useEffect(() => setSavedIds(saved?.map(item => item.opportunity.id) ?? []), [saved]);
+  const reset = () => { setQ(""); setSearch(""); setProgramme(ANY); setSector(ANY); setCountry(ANY); setDeadlineBefore(""); setBudgetMin(""); setBudgetMax(""); setPage(1); };
+  const totalPages = Math.max(1, Math.ceil((data?.total ?? 0) / 9));
+
+  return <div className="min-h-screen bg-[#fcfdfb]"><PublicNav /><main className="container py-10 sm:py-14"><div className="max-w-3xl"><p className="text-xs font-bold uppercase tracking-[0.15em] text-[#6a897e]">Funding catalogue</p><h1 className="mt-3 font-display text-5xl tracking-[-0.05em] text-[#173f38]">Find your next opportunity.</h1><p className="mt-4 text-base leading-7 text-[#61746d]">Search official-source records by topic, programme, geography and funding context.</p></div><form onSubmit={event => { event.preventDefault(); setSearch(q); setPage(1); }} className="mt-9 flex rounded-2xl border border-[#d7e2db] bg-white p-2 shadow-sm"><div className="relative flex-1"><Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#70847c]" /><Input value={q} onChange={event => setQ(event.target.value)} className="h-11 border-0 bg-transparent pl-11 shadow-none focus-visible:ring-0" placeholder="Search funding opportunities" /></div><Button type="submit" className="h-11 rounded-xl bg-[#0f3d36] px-5 text-white hover:bg-[#174c43]">Search</Button></form><div className="mt-8 grid gap-8 lg:grid-cols-[250px_1fr]"><aside className="h-fit rounded-2xl border border-[#dce5df] bg-[#f3f7f3] p-5"><div className="flex items-center justify-between"><h2 className="flex items-center gap-2 font-display text-xl text-[#1c493f]"><SlidersHorizontal className="h-4 w-4" />Filters</h2><button onClick={reset} className="text-xs font-semibold text-[#53746a] hover:underline">Clear all</button></div><div className="mt-6 space-y-5"><div><Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6a8077]">Programme</Label><Select value={programme} onValueChange={value => { setProgramme(value); setPage(1); }}><SelectTrigger className="mt-2 h-10 bg-white"><SelectValue placeholder="All programmes" /></SelectTrigger><SelectContent><SelectItem value={ANY}>All programmes</SelectItem>{options?.programmes.map(value => <SelectItem value={value} key={value}>{value}</SelectItem>)}</SelectContent></Select></div><div><Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6a8077]">Sector</Label><Select value={sector} onValueChange={value => { setSector(value); setPage(1); }}><SelectTrigger className="mt-2 h-10 bg-white"><SelectValue placeholder="All sectors" /></SelectTrigger><SelectContent><SelectItem value={ANY}>All sectors</SelectItem>{options?.sectors.map(value => <SelectItem value={value} key={value}>{value}</SelectItem>)}</SelectContent></Select></div><div><Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6a8077]">Country</Label><Select value={country} onValueChange={value => { setCountry(value); setPage(1); }}><SelectTrigger className="mt-2 h-10 bg-white"><SelectValue placeholder="All countries" /></SelectTrigger><SelectContent><SelectItem value={ANY}>All countries</SelectItem>{options?.countries.map(value => <SelectItem value={value} key={value}>{value}</SelectItem>)}</SelectContent></Select></div><div><Label htmlFor="deadline-before" className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6a8077]">Deadline before</Label><Input id="deadline-before" type="date" value={deadlineBefore} onChange={event => { setDeadlineBefore(event.target.value); setPage(1); }} className="mt-2 h-10 bg-white" /></div><div><Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6a8077]">Budget range (EUR)</Label><div className="mt-2 grid grid-cols-2 gap-2"><Input type="number" min="0" value={budgetMin} onChange={event => { setBudgetMin(event.target.value); setPage(1); }} placeholder="Min" className="h-10 bg-white" /><Input type="number" min="0" value={budgetMax} onChange={event => { setBudgetMax(event.target.value); setPage(1); }} placeholder="Max" className="h-10 bg-white" /></div></div><div className="rounded-xl border border-[#dbe8d6] bg-[#fbfdf7] p-3 text-xs leading-5 text-[#63776e]"><Filter className="mb-1.5 h-4 w-4 text-[#6d9134]" />Funding records without a published budget will remain visible unless a budget range is selected.</div></div></aside><section><div className="flex items-center justify-between"><p className="text-sm text-[#5d7169]">{isLoading ? "Loading catalogue" : `${data?.total ?? 0} opportunities found`}</p>{isFetching && <Loader2 className="h-4 w-4 animate-spin text-[#668279]" />}</div>{isLoading ? <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{Array.from({ length: 6 }).map((_, index) => <div className="h-80 animate-pulse rounded-2xl bg-[#eef3ef]" key={index} />)}</div> : data?.items.length ? <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{data.items.map(opportunity => <OpportunityCard key={opportunity.id} opportunity={opportunity} saved={savedIds.includes(opportunity.id)} onSave={id => save.mutate({ opportunityId: id })} />)}</div> : <div className="mt-5 rounded-2xl border border-dashed border-[#bdcec5] bg-[#f7faf7] p-10 text-center"><X className="mx-auto h-5 w-5 text-[#82978e]" /><h2 className="mt-3 font-display text-2xl text-[#234b42]">No matching opportunities yet</h2><p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#687a73]">Try broadening your topic or clearing filters. The catalogue only presents records available from its currently connected official sources.</p><Button onClick={reset} variant="outline" className="mt-5 rounded-full">Reset filters</Button></div>}<div className="mt-9 flex items-center justify-between border-t border-[#e1eae4] pt-5"><Button variant="outline" disabled={page === 1} onClick={() => setPage(current => current - 1)} className="rounded-full">Previous</Button><span className="text-sm text-[#63766f]">Page {page} of {totalPages}</span><Button variant="outline" disabled={page >= totalPages} onClick={() => setPage(current => current + 1)} className="rounded-full">Next</Button></div></section></div></main><PublicFooter /></div>;
+}
