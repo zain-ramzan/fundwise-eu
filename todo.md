@@ -32,6 +32,6 @@
 - [x] Add refined funding-card hover states and a smooth, accessible search loading animation.
 - [x] Remove the central Discover control from the public navigation bar.
 - [x] Supersede Cloudflare Web Analytics in favour of the user-selected Fundwise-specific GoatCounter property.
-- [ ] Verify the updated public GitHub Pages experience and analytics integration.
+- [x] Verify the updated public GitHub Pages experience and analytics integration.
 - [x] Create or connect a Fundwise-specific GoatCounter property and retrieve its site code.
-- [x] Add the Fundwise GoatCounter script to the static GitHub Pages catalogue and verify live script loading; dashboard pageview visibility depends on the user’s GoatCounter session and ad-blocking settings.
+- [x] Add the Fundwise GoatCounter script to the static GitHub Pages catalogue and verify end-to-end pageview collection in the Fundwise dashboard.

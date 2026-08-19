@@ -13,3 +13,5 @@ The live Share control was also verified. It opened a share chooser with a copya
 Following a sector-mapping correction, the live catalogue was rechecked: the sustainable cultural tourism opportunity now appears under **Culture & Society**, while the artificial-intelligence opportunities remain under **Digital & AI**.
 
 The published catalogue was loaded after the Fundwise GoatCounter integration. The browser confirmed that the GoatCounter tracking resource, `https://gc.zgo.at/count.js`, loaded from the live page.
+
+The Fundwise GoatCounter dashboard subsequently confirmed end-to-end collection: it displayed two visits for the `/fundwise-eu` path and the title “Fundwise.eu — Funding intelligence.”
