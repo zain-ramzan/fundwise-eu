@@ -17,6 +17,9 @@
 - [x] Verify the responsive interface, accessibility, and production build.
 - [ ] Publish the platform and activate the production daily deadline-reminder schedule.
 - [ ] Connect a verified structured official-source adapter to enrich opportunity records with full descriptions, eligibility evidence, and published budget fields.
+- [x] Create a GitHub Pages-compatible static public discovery deployment while retaining the safe source monitor.
+- [ ] Configure GitHub Pages publication from the private repository and verify the deployed public site.
+- [x] Retain the safe daily official-source monitor rather than connecting an additional authorised data feed.
 - [x] Remove public sign-in, How it works, and For organisations controls while preserving a direct Discover path.
 - [x] Replace public application creation with a calendar and task-saving experience for opportunity deadlines.
 - [x] Replace the temporary Yorkie-blue filter approach with deliberate palette tokens and revalidate public contrast at desktop and mobile sizes.
