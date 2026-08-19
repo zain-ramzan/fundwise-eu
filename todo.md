@@ -27,9 +27,9 @@
 - [x] Create and publish a new GitHub repository for the completed platform source code.
 - [x] Add a safe daily GitHub Actions workflow that refreshes verified official funding records without inventing unsupported data.
 - [x] Validate the revised public flows, build, tests, and repository automation configuration.
-- [ ] Add programme and sector filters to the public GitHub Pages funding catalogue.
-- [ ] Add funding-card sharing with native sharing when available, link copying, and email composition fallback.
-- [ ] Add refined funding-card hover states and a smooth, accessible search loading animation.
-- [ ] Remove the central Discover control from the public navigation bar.
+- [x] Add programme and sector filters to the public GitHub Pages funding catalogue.
+- [x] Add funding-card sharing with native sharing when available, link copying, and email composition fallback.
+- [x] Add refined funding-card hover states and a smooth, accessible search loading animation.
+- [x] Remove the central Discover control from the public navigation bar.
 - [ ] Create a Cloudflare Web Analytics property, add its beacon to the static site, and provide the beacon token if authorised account access is available.
 - [ ] Verify the updated public GitHub Pages experience and analytics integration.
