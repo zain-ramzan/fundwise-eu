@@ -33,3 +33,5 @@
 - [x] Remove the central Discover control from the public navigation bar.
 - [ ] Create a Cloudflare Web Analytics property, add its beacon to the static site, and provide the beacon token if authorised account access is available.
 - [ ] Verify the updated public GitHub Pages experience and analytics integration.
+- [ ] Create or connect a Fundwise-specific GoatCounter property and retrieve its site code.
+- [ ] Add the Fundwise GoatCounter script to the static GitHub Pages catalogue and verify live pageview collection.
