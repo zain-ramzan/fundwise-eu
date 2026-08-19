@@ -29,6 +29,13 @@ const snapshot = {
   removals,
   identifiers: hasStructuredIdentifiers ? identifiers : previous.identifiers,
 };
+const unchanged = previous.contentHash === snapshot.contentHash
+  && previous.sourceAvailability === snapshot.sourceAvailability
+  && JSON.stringify(previous.identifiers) === JSON.stringify(snapshot.identifiers);
+if (unchanged) {
+  console.log("No official source content change detected; no snapshot update required.");
+  process.exit(0);
+}
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`);
 console.log(hasStructuredIdentifiers
