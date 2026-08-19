@@ -1,0 +1,44 @@
+name: Refresh official funding snapshot
+
+on:
+  schedule:
+    # 06:30 UTC: a morning run in Central European time, accounting for seasonal clock changes.
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-funding-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Enable pnpm
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify official source and refresh snapshot
+        run: node scripts/refresh-official-snapshot.mjs
+      - name: Commit verified snapshot changes
+        run: |
+          if git diff --quiet -- data/official-funding-snapshot.json; then
+            echo "No verified source changes detected."
+            exit 0
+          fi
+          git config user.name "fundwise-source-bot"
+          git config user.email "fundwise-source-bot@users.noreply.github.com"
+          git add data/official-funding-snapshot.json
+          git commit -m "chore(data): refresh verified official funding snapshot"
+          git push
